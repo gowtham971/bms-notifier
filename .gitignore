@@ -4,4 +4,4 @@ __pycache__/
 .env
 # state is committed by the workflow so change-detection persists across runs,
 # but ignore it locally so your test runs don't create noisy diffs:
-bms_state.json
+
