@@ -9,6 +9,7 @@ Configure via environment variables or edit the CONFIG below.
 import os
 import re
 import sys
+import time
 import json
 from html import escape
 from datetime import datetime
@@ -174,14 +175,20 @@ def fetch_bms(event_code, date_code, region_code, region_slug,
         "memberId": "", "lsId": "", "subCode": "",
         "lat": lat, "lon": lon,
     }
-    try:
-        resp = requests.get(API_URL, headers=headers,
-                            params=params, timeout=15)
-        if resp.status_code == 200:
-            return resp.json()
-        print(f"  HTTP {resp.status_code}")
-    except requests.RequestException as e:
-        print(f"  Request failed: {e}")
+    # BMS intermittently 403s datacenter IPs (e.g. GitHub runners). Retry
+    # a few times with backoff so a transient block doesn't make us miss the
+    # exact run where tickets open.
+    for attempt in range(4):
+        try:
+            resp = requests.get(API_URL, headers=headers,
+                                params=params, timeout=15)
+            if resp.status_code == 200:
+                return resp.json()
+            print(f"  HTTP {resp.status_code} (attempt {attempt + 1}/4)")
+        except requests.RequestException as e:
+            print(f"  Request failed (attempt {attempt + 1}/4): {e}")
+        if attempt < 3:
+            time.sleep(2 * (attempt + 1))   # 2s, 4s, 6s backoff
     return None
 
 
@@ -277,7 +284,9 @@ def filter_shows(shows, theatre_filter, time_periods, date_codes,
     result = []
     kws = [k.strip().lower() for k in theatre_filter.split(",")
            if k.strip()] if theatre_filter else []
-    fmts = [f.strip().lower() for f in format_filter.split(",")
+    # Normalize formats by stripping spaces too, so "ScreenX" matches BMS's
+    # "SCREEN X" / "3D SCREEN X" labels.
+    fmts = [f.strip().lower().replace(" ", "") for f in format_filter.split(",")
             if f.strip()] if format_filter else []
     periods = [p.strip().lower() for p in time_periods.split(",")
                if p.strip()] if time_periods else []
@@ -297,7 +306,7 @@ def filter_shows(shows, theatre_filter, time_periods, date_codes,
 
         # Format filter (e.g. ScreenX, IMAX) — matches screen attributes
         if fmts:
-            attr_lower = (s.screen_attr or "").lower()
+            attr_lower = (s.screen_attr or "").lower().replace(" ", "")
             if not any(f in attr_lower for f in fmts):
                 continue
 
