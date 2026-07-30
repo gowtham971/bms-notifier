@@ -3,7 +3,7 @@ name: BMS Ticket Checker
 on:
   schedule:
     # Every 30 minutes. GitHub cron is best-effort (can lag under load).
-    - cron: "*/30 * * * *"
+    - cron: "30 0-17   *"
   workflow_dispatch: {}   # lets you run it manually from the Actions tab
 
 # Allow the job to push the updated state file back to the repo.
