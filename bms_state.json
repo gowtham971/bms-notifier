@@ -198,7 +198,7 @@
       "date": "20260809",
       "cat": "RECLINER ROWS",
       "price": "880.00",
-      "status": "1"
+      "status": "0"
     },
     "IMMO|61013|20260809|PRIME ROWS": {
       "venue": "INOX: Megaplex Mall of Asia Bangalore",
@@ -253,7 +253,7 @@
       "time": "09:40 AM",
       "date": "20260809",
       "cat": "CLASSIC ROWS",
-      "price": "400.00",
+      "price": "430.00",
       "status": "3"
     },
     "IMMO|61015|20260809|RECLINER ROWS": {
@@ -366,7 +366,7 @@
       "date": "20260809",
       "cat": "PRIME ROWS",
       "price": "750.00",
-      "status": "1"
+      "status": "0"
     },
     "IMMO|61018|20260809|CLASSIC PLUS ROWS": {
       "venue": "INOX: Megaplex Mall of Asia Bangalore",
@@ -386,12 +386,12 @@
     }
   },
   "dates": {
-    "20260806": "AVAILABLE",
     "20260807": "AVAILABLE",
     "20260808": "AVAILABLE",
     "20260809": "BOOKABLE",
     "20260810": "NOT_OPEN",
     "20260811": "NOT_OPEN",
-    "20260812": "NOT_OPEN"
+    "20260812": "NOT_OPEN",
+    "20260813": "NOT_OPEN"
   }
 }
