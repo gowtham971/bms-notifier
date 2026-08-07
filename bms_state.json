@@ -14,7 +14,7 @@
       "date": "20260808",
       "cat": "PRIME ROWS",
       "price": "510.00",
-      "status": "0"
+      "status": "1"
     },
     "IMMO|61007|20260808|CLASSIC PLUS ROWS": {
       "venue": "INOX: Megaplex Mall of Asia Bangalore",
@@ -246,7 +246,7 @@
       "date": "20260809",
       "cat": "CLASSIC PLUS ROWS",
       "price": "470.00",
-      "status": "1"
+      "status": "0"
     },
     "IMMO|61014|20260809|CLASSIC ROWS": {
       "venue": "INOX: Megaplex Mall of Asia Bangalore",
